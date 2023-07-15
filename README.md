@@ -48,3 +48,8 @@ Here is the list of changes I made:
 1. Prepare an openapi specification in json or yaml format.
 2. Generate code using [updated-openapi-typescript-codegen](./openapi-typescript-codegen/README.md)
 3. Create test suites with generated clients in different http libraries.
+
+## Examples
+- [k6-template-typescript](./examples/k6-template-typescript/README.md)
+- [axios.client.test.ts](./tests/axios.client.test.ts)
+- [codeceptjs.client.test.ts](./tests/codeceptjs.client.test.ts)
