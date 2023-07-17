@@ -3,7 +3,7 @@
 /* eslint-disable */
 import type {Pet} from '../models/Pet';
 
-import {ApiRequestOptions} from "../core/ApiRequestOptions";
+import {ApiRequestOptions} from "../../src/core/ApiRequestOptions";
 
 export class PetService {
 

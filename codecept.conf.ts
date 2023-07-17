@@ -8,7 +8,8 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 export const config: CodeceptJS.MainConfig = {
-  tests: 'tests/codeceptjs.client.test.ts',
+  // tests: 'tests/codeceptjs/*.test.ts',
+  tests: 'tests/codeceptjs/pet.test.ts',
   output: '',
   helpers: {
     REST: {
@@ -18,7 +19,7 @@ export const config: CodeceptJS.MainConfig = {
   },
   include: {
     I: './steps_file',
-    request: 'src/axios/client/codeceptjs.client.ts'
+    request: 'src/clients/codeceptjs.client.ts'
   },
   name: 'sample-codeceptjs'
 }

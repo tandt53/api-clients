@@ -189,6 +189,9 @@ const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions, for
 
 const getRequestBody = (options: ApiRequestOptions): any => {
     if (options.body) {
+        if(isBlob(options.body)) {
+            return options.body.stream();
+        }
         return options.body;
     }
     return undefined;
@@ -221,19 +224,19 @@ const sendRequest = async (
         if (requestConfig.method === 'GET') {
             return await I.sendGetRequest(requestConfig.url, requestConfig.headers);
         }
-        if (requestConfig.method === 'POST' && requestConfig.data) {
+        if (requestConfig.method === 'POST') {
             return await I.sendPostRequest(requestConfig.url, requestConfig.data, requestConfig.headers);
         }
-        if (requestConfig.method === 'PUT' && requestConfig.data) {
-            return await I.sendPutRequest(requestConfig.url, requestConfig.headers, requestConfig.data);
+        if (requestConfig.method === 'PUT') {
+            return await I.sendPutRequest(requestConfig.url, requestConfig.data, requestConfig.headers);
         }
-        if (requestConfig.method === 'DELETE' && requestConfig.data) {
-            return await I.sendDeleteRequest(requestConfig.url, requestConfig.headers, requestConfig.data);
+        if (requestConfig.method === 'DELETE') {
+            return await I.sendDeleteRequest(requestConfig.url, requestConfig.headers);
         }
-        if (requestConfig.method === 'PATCH' && requestConfig.data) {
+        if (requestConfig.method === 'PATCH') {
             return await I.sendPatchRequest(requestConfig.url, requestConfig.headers, requestConfig.data);
         }
-        return await I.send(requestConfig.url, requestConfig.headers, requestConfig.data);
+        return await I.sendGetRequest(requestConfig.url, requestConfig.headers, requestConfig.data);
 
     } catch (error) {
         const axiosError = error as AxiosError<ApiResult>;

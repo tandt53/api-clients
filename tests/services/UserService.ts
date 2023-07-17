@@ -3,7 +3,7 @@
 /* eslint-disable */
 import type { User } from '../models/User';
 
-import {ApiRequestOptions} from "../core/ApiRequestOptions";
+import {ApiRequestOptions} from "../../src/core/ApiRequestOptions";
 
 export class UserService {
 

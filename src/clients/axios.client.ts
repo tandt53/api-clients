@@ -191,6 +191,9 @@ const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions, for
 
 const getRequestBody = (options: ApiRequestOptions): any => {
     if (options.body) {
+        if(isBlob(options.body)) {
+            return options.body.stream();
+        }
         return options.body;
     }
     return undefined;

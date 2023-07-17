@@ -51,5 +51,5 @@ Here is the list of changes I made:
 
 ## Examples
 - [k6-template-typescript](./examples/k6-template-typescript/README.md)
-- [axios.client.test.ts](./tests/axios.client.test.ts)
-- [codeceptjs.client.test.ts](./tests/codeceptjs.client.test.ts)
+- [user.test.ts](tests/axios/axios.client.test.ts)
+- [user.test.ts](tests/codeceptjs/codeceptjs.client.test.ts)

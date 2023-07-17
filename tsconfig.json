@@ -22,7 +22,8 @@
       "codeceptjs",
       "node",
       "reflect-metadata",
-      "mocha"
+      "mocha",
+      "chai"
     ],
     "resolveJsonModule": true,
     "allowJs": true,
@@ -31,6 +32,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   }
 }

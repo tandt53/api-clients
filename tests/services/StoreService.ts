@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Order } from '../models/Order';
-import {ApiRequestOptions} from "../core/ApiRequestOptions";
+import {ApiRequestOptions} from "../../src/core/ApiRequestOptions";
 
 export class StoreService {
 

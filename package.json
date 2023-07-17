@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \\\"Error: no tests specified\\\" && exit 1",
-    "codeceptjs": "codeceptjs run -c codecept.conf.ts --steps",
-    "mocha": "mocha tests/axios.client.test.ts -r ts-node/register -r tsconfig-paths/register --timeout 10000 --exit",
+    "codeceptjs": "codeceptjs run -c codecept.conf.ts --steps --verbose",
+    "mocha": "mocha tests/axios/*.test.ts -r ts-node/register -r tsconfig-paths/register --timeout 10000 --exit",
     "start:dev": "nodemon"
   },
   "keywords": [],
@@ -14,17 +14,20 @@
   "license": "ISC",
   "devDependencies": {
     "@codeceptjs/configure": "^0.8.0",
-    "@faker-js/faker": "^7.6.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^20.4.2",
-    "axios": "^1.1.3",
-    "codeceptjs": "^3.5.2",
-    "form-data": "^4.0.0",
-    "mocha": "^10.2.0",
-    "nodemon": "^2.0.20",
-    "ts-node": "^10.9.1",
-    "tsconfig-paths": "^3.12.0",
-    "typescript": "^5.1.6",
-    "@types/k6": "0.45.0"
+    "@faker-js/faker": "7.6.0",
+    "@types/chai": "4.3.5",
+    "@types/k6": "0.45.0",
+    "@types/mocha": "10.0.1",
+    "@types/node": "20.4.2",
+    "axios": "1.1.3",
+    "chai": "4.3.7",
+    "codeceptjs": "3.5.2",
+    "cypress": "12.17.1",
+    "form-data": "4.0.0",
+    "mocha": "10.2.0",
+    "nodemon": "2.0.20",
+    "ts-node": "10.9.1",
+    "tsconfig-paths": "3.12.0",
+    "typescript": "^5.1.6"
   }
 }
