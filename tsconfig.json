@@ -20,6 +20,7 @@
     "strictNullChecks": true,
     "types": [
       "codeceptjs",
+      "cypress",
       "node",
       "reflect-metadata",
       "mocha",

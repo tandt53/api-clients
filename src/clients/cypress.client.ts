@@ -1,21 +1,7 @@
 import {OpenAPIConfig} from "../core/OpenAPI";
 import {ApiRequestOptions} from "../core/ApiRequestOptions";
-import RequestOptions = Cypress.RequestOptions;
 
 
-// function getAuth(config: OpenAPIConfig) {
-//     if (!config.WITH_CREDENTIALS) {
-//         return undefined;
-//     }
-//     if (config.CREDENTIALS === 'basic') {
-//         return {
-//             username: config.USERNAME,
-//             password: config.PASSWORD
-//         }
-//     }
-//
-//     return undefined;
-// }
 
 function getForm(options: ApiRequestOptions): boolean {
     return options.mediaType === 'x-www-form-urlencoded';
