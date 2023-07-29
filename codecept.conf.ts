@@ -9,7 +9,7 @@ setCommonPlugins();
 
 export const config: CodeceptJS.MainConfig = {
   // tests: 'tests/codeceptjs/*.test.ts',
-  tests: 'tests/codeceptjs/pet.test.ts',
+  tests: 'tests/codeceptjs/*.ts',
   output: '',
   helpers: {
     REST: {

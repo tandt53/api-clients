@@ -82,9 +82,15 @@ public class PetController {
             return new ResponseEntity<String>("No file provided. Try again?", HttpStatus.BAD_REQUEST);
         }
 
+        System.out.println(httpServletRequest);
         try (ServletInputStream inputStream = httpServletRequest.getInputStream()) {
-            new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
-                    .lines().forEach(System.out::println);
+            BufferedWriter bw = new BufferedWriter(new FileWriter("Filepath.png"));
+
+            while (inputStream.available() > 0) {
+                bw.write(inputStream.read());
+            }
+//            new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+//                    .lines().forEach(System.out::println);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
