@@ -1,6 +1,5 @@
 import express, {Request, Response} from 'express';
 import {User} from "./models/user";
-import {v4 as uuidv4} from 'uuid';
 import userController from "./controllers/user.controller";
 
 const app = express();
@@ -14,26 +13,13 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // user
+app.post('/user', userController.createUser);
 
-app.post('/user', (req: Request, res: Response) => {
-    const createdUser = userController.createUser(req.body);
-    res.send(createdUser);
-});
+app.put('/user/:id', userController.updateUser);
 
-app.put('/user/:id', (req: Request<{id: number}, {}, { user: User }, {}>, res: Response) => {
-    const updatedUser = userController.updateUser(req.params.id, req.body.user);
-    res.send(updatedUser);
-});
+app.delete('/user/:id', userController.deleteUser);
 
-app.delete('/user/:id', (req: Request<{ id: number }, {}, { user: User }, {}>, res: Response) => {
-    const deletedUser = userController.deleteUser(req.params.id);
-    res.statusCode = 204;
-});
-
-app.get('/user/:id', (req: Request<{id: number}, {}, { user: User }, {}>, res: Response) => {
-    const user = userController.getUserById(req.params.id);
-    res.send(user);
-});
+app.get('/user/:id', userController.getUserById);
 
 // pet
 app.post('/pet', (req: Request, res: Response) => {

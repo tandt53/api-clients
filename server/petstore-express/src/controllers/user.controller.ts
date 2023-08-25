@@ -1,41 +1,58 @@
 import {User} from "../models/user";
 import {UserService} from "../services/user.service";
+import {Request, Response} from "express";
 
+const userService = new UserService();
 
-export class UserController {
-    private userService = new UserService();
+class UserController {
 
-    public createUser(user: User): User {
-        const existingUser = this.userService.getUserByUsername(user.username);
+    public createUser(req: Request, res: Response) {
+        const existingUser = userService.getUserByUsername(req.body.username);
         if (existingUser) {
-            throw new Error('User already exists');
+            res.send('User already exists');
         }
-        return this.userService.createUser(user);
+        res.send(userService.createUser(req.body));
     }
 
-    public updateUser(id: number, user: User): User {
-        const existingUser = this.userService.getUserById(id);
+    public updateUser(req: Request<{ id: string }, {}, {}, {}>, res: Response) {
+        const id = req.params.id;
+        const existingUser = userService.getUserById(id);
+        const updateUser = <User>req.body;
+        updateUser.id = existingUser.id;
         if (existingUser) {
-            return this.userService.updateUser(user);
+            res.send(userService.updateUser(updateUser));
         } else
-            throw new Error(`User with id ${id} does not exist`);
+            res.send(`User with id ${id} does not exist`);
     }
 
-    public deleteUser(id: number): void {
-        const existingUser = this.userService.getUserById(id);
+    public deleteUser(req: Request<{ id: string }, {}, {}, {}>, res: Response) {
+        const id = req.params.id;
+        const existingUser = userService.getUserById(id);
         if (existingUser) {
-            this.userService.deleteUser(id);
+            userService.deleteUser(id);
+            const remainingUsers = userService.getUserById(id);
+            if (!remainingUsers)
+                res.send(`User with id ${id} deleted`);
+            else
+                res.send(`User with id ${id} not deleted`);
         } else
-            throw new Error(`User with id ${id} does not exist`);
+            res.send(`User with id ${id} does not exist`);
     }
 
-    public getUserById(id: number): User {
-        return this.userService.getUserById(id);
+    public getUserById(req: Request<{ id: string }, {}, {}, {}>, res: Response) {
+        const id = req.params.id;
+        const existingUser = userService.getUserById(id);
+
+        if (!existingUser) {
+            res.send(`User with id ${id} does not exist`);
+        } else
+            res.send(userService.getUserById(id));
     }
 
     public getUserByUsername(username: string): User {
-        return this.userService.getUserByUsername(username);
+        return userService.getUserByUsername(username);
     }
 
 }
+
 export default new UserController();
