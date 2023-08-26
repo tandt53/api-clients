@@ -1,13 +1,13 @@
 export interface Pet {
-    id: string;
+    id: number;
     name: string;
     category: {
-        id: string;
+        id: number;
         name: string;
     },
     photoUrls: string[];
     tags: [{
-        id: string;
+        id: number;
         name: string;
     }],
     status: string;
