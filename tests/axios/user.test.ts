@@ -13,6 +13,7 @@ describe('User', function () {
     let password;
 
     it('POST /user - Create user', async function () {
+        console.log(newUser)
         const createUserSpec = UserService.createUser(newUser);
         const response: ApiResult = await axiosClient(createUserSpec, OpenAPI);
         expect(response.status).to.be.equal(200);

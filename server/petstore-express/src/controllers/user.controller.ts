@@ -5,13 +5,23 @@ import {Request, Response} from "express";
 const userService = new UserService();
 
 class UserController {
+    public login(req: Request, res: Response) {
+        const existingUser = userService.getUserByUsername(req.body.username);
+        if (existingUser) {
+            if (existingUser.password === req.body.password) {
+                res.send('Login successful');
+            } else
+                res.send('Wrong password');
+        } else
+            res.send('User does not exist');
+    }
 
     public createUser(req: Request, res: Response) {
         const existingUser = userService.getUserByUsername(req.body.username);
         if (existingUser) {
             res.send('User already exists');
-        }
-        res.send(userService.createUser(req.body));
+        } else
+            res.send(userService.createUser(req.body));
     }
 
     public updateUser(req: Request<{ id: string }, {}, {}, {}>, res: Response) {

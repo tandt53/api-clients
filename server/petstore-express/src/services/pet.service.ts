@@ -1,10 +1,9 @@
 import {Pet} from "../models/pet";
 
-export class PetService{
+export class PetService {
     private pets: Pet[] = [];
+
     public createPet(pet: Pet): Pet {
-        const id: number = Math.random();
-        pet.id = id;
         this.pets.push(pet);
         return pet;
     }

@@ -7,6 +7,7 @@ import * as fs from "fs";
 
 describe('Pet', () => {
     it('POST /pet - Create pet', async () => {
+        console.log(newPet);
         const spec = PetService.addPet(newPet);
         const response = await axiosClient(spec, OpenAPI)
         expect(response.status).to.be.equal(200);

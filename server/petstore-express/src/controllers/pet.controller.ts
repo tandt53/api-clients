@@ -5,13 +5,13 @@ const petService = new PetService();
 
 class PetController {
     async create(req: Request, res: Response) {
-        const existingPet = petService.getPetById(req.body);
+        const existingPet = petService.getPetById(req.body.id);
         const pet = petService.createPet(req.body);
         res.status(201).json(pet);
     }
 
-    async getById(req: Request<{ id: number }, {}, {}, {}>, res: Response) {
-        const pet = petService.getPetById(req.params.id);
+    async getById(req: Request<{ id: string }, {}, {}, {}>, res: Response) {
+        const pet = petService.getPetById(Number(req.params.id));
         if (!pet) {
             res.status(404).json({message: `Pet with id ${req.params.id} not found`});
         } else
@@ -26,8 +26,8 @@ class PetController {
             res.status(200).json({data: {pet}});
     }
 
-    async uploadImage(req: Request<{ id: number }, {}, {}, {}>, res: Response) {
-        const pet = petService.getPetById(req.params.id);
+    async uploadImage(req: Request<{ id: string }, {}, {}, {}>, res: Response) {
+        const pet = petService.getPetById(Number(req.params.id));
         const image = req.body;
         if (!pet) {
             res.status(404).json({message: `Pet with id ${req.params.id} not found`});
@@ -35,3 +35,4 @@ class PetController {
             res.status(200).json({message: `Image uploaded`});
     }
 }
+export default new PetController();
