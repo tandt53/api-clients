@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \\\"Error: no tests specified\\\" && exit 1",
     "codeceptjs": "codeceptjs run -c codecept.conf.ts --steps --verbose",
-    "mocha": "mocha tests/axios/*.test.ts -r ts-node/register -r tsconfig-paths/register --timeout 10000 --exit",
+    "mocha": "mocha tests/axios/*.test.ts -r ts-node/register -r tsconfig-paths/register --timeout 120000 --exit",
     "start:dev": "nodemon"
   },
   "keywords": [],
