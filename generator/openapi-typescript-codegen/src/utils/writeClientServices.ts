@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
 import type { Service } from '../client/interfaces/Service';
-import type { HttpClient } from '../HttpClient';
+import {getHttpClient, HttpClient} from '../HttpClient';
 import type { Indent } from '../Indent';
 import { writeFile } from './fileSystem';
 import { formatCode as f } from './formatCode';

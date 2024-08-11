@@ -6,5 +6,6 @@ export type ApiResult = {
 	readonly status: number;
 	readonly statusText: string;
 	readonly data: any;
-	readonly headers: Record<string, string>;
+	readonly headers: Record<string, any>;
+	readonly timings?: any;
 };

@@ -48,7 +48,6 @@ export const getOperationRequestBody = (openApi: OpenApi, body: OpenApiRequestBo
                 requestBody.base = model.base;
                 requestBody.template = model.template;
                 requestBody.imports.push(...model.imports);
-                console.log(requestBody.type);
                 return requestBody;
             } else {
                 const model = getModel(openApi, content.schema);
@@ -78,7 +77,6 @@ export const getOperationRequestBody = (openApi: OpenApi, body: OpenApiRequestBo
                 requestBody.enum.push(...model.enum);
                 requestBody.enums.push(...model.enums);
                 requestBody.properties.push(...model.properties);
-                console.log(requestBody.type);
                 return requestBody;
             }
         }

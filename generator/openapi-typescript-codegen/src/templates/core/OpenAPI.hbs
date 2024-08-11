@@ -8,8 +8,8 @@ type Headers = Record<string, string>;
 export type OpenAPIConfig = {
 	BASE: string;
 	VERSION: string;
-	WITH_CREDENTIALS: boolean;
-	CREDENTIALS: 'include' | 'omit' | 'same-origin';
+	WITH_CREDENTIALS?: boolean;
+	CREDENTIALS?: 'include' | 'omit' | 'same-origin';
 	TOKEN?: string | Resolver<string>;
 	USERNAME?: string | Resolver<string>;
 	PASSWORD?: string | Resolver<string>;

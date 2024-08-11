@@ -1,9 +1,10 @@
 import http, {Params} from "k6/http";
 import {OpenAPIConfig} from "../core/OpenAPI";
 import {ApiRequestOptions} from "../core/ApiRequestOptions";
-// @ts-ignore
+// @ts-expect-error FormData is from k6
 import {FormData} from 'https://jslib.k6.io/formdata/0.0.2/index.js';
 import {ApiResult} from "../core/ApiResult";
+import { OpenAPI } from './OpenAPI';
 
 function getFormData(options: ApiRequestOptions): FormData | undefined {
 	const formData = options.formData;
@@ -13,26 +14,33 @@ function getFormData(options: ApiRequestOptions): FormData | undefined {
 	return formData['k6'];
 }
 
-export const k6Client = (config: OpenAPIConfig, options: ApiRequestOptions): ApiResult => {
+export const k6Client = (options: ApiRequestOptions, config?: OpenAPIConfig): ApiResult => {
+	config = config ?? OpenAPI;
 	const url = getUrl(config, options);
-	const params: Params = {headers: options.headers};
+	const params: Params = { headers: {} };
+        params.headers = {
+                ...options.headers,
+        };
+
+	const token = config.TOKEN;
+	if (token) {
+    	if (!params.headers) params.headers = {};
+    	    params.headers['Authorization'] = `Bearer ${token}`;
+	}
 	let body;
 
 	const jsonBody = getRequestBody(options);
 	const formData = getFormData(options);
 	if (jsonBody) {
 		body = JSON.stringify(jsonBody);
-		params.headers = {
-		...options.headers,
-		'Content-Type': 'application/json',
-		};
+		params.headers['Content-Type'] = 'application/json';
 	}
 	if (formData) {
 		body = formData.body();
 		params.headers = {
-		...options.headers,
-		...formData.headers,
-		'Content-Type': 'multipart/form-data; boundary=' + formData.boundary
+			...params.headers,
+			...formData.headers,
+			'Content-Type': 'multipart/form-data; boundary=' + formData.boundary
 		};
 	}
 	const response = http.request(options.method, url, body, params);
@@ -57,6 +65,7 @@ const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
 	const path = options.url
 			.replace('{api-version}', config.VERSION)
 			.replace(/{(.*?)}/g, (substring: string, group: string) => {
+				// eslint-disable-next-line no-prototype-builtins
 				if (options.path?.hasOwnProperty(group)) {
 					return encoder(String(options.path[group]));
 				}

@@ -26,14 +26,14 @@ const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptions, for
 		headers['Authorization'] = `Basic ${credentials}`;
 	}
 
-	if (options.data) {
+	if (options.body) {
 		if (options.mediaType) {
 			headers['Content-Type'] = options.mediaType;
-		} else if (isBlob(options.data)) {
-			headers['Content-Type'] = options.data.type || 'application/octet-stream';
-		} else if (isString(options.data)) {
+		} else if (isBlob(options.body)) {
+			headers['Content-Type'] = options.body.type || 'application/octet-stream';
+		} else if (isString(options.body)) {
 			headers['Content-Type'] = 'text/plain';
-		} else if (!isFormData(options.data)) {
+		} else if (!isFormData(options.body)) {
 			headers['Content-Type'] = 'application/json';
 		}
 	}

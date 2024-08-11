@@ -1,18 +1,18 @@
-import { resolve } from 'path';
+import {resolve} from 'path';
 
-import type { Client } from '../client/interfaces/Client';
-import type { HttpClient } from '../HttpClient';
-import type { Indent } from '../Indent';
-import { mkdir, rmdir } from './fileSystem';
-import { isDefined } from './isDefined';
-import { isSubDirectory } from './isSubdirectory';
-import type { Templates } from './registerHandlebarTemplates';
-import { writeClientClass } from './writeClientClass';
-import { writeClientCore } from './writeClientCore';
-import { writeClientIndex } from './writeClientIndex';
-import { writeClientModels } from './writeClientModels';
-import { writeClientSchemas } from './writeClientSchemas';
-import { writeClientServices } from './writeClientServices';
+import type {Client} from '../client/interfaces/Client';
+import {getHttpClient, HttpClient} from '../HttpClient';
+import type {Indent} from '../Indent';
+import {mkdir, rmdir} from './fileSystem';
+import {isDefined} from './isDefined';
+import {isSubDirectory} from './isSubdirectory';
+import type {Templates} from './registerHandlebarTemplates';
+import {writeClientClass} from './writeClientClass';
+import {writeClientCore} from './writeClientCore';
+import {writeClientIndex} from './writeClientIndex';
+import {writeClientModels} from './writeClientModels';
+import {writeClientSchemas} from './writeClientSchemas';
+import {writeClientServices} from './writeClientServices';
 
 /**
  * Write our OpenAPI client, using the given templates at the given output
@@ -66,6 +66,7 @@ export const writeClient = async (
         await writeClientCore(client, templates, outputPathCore, httpClient, indent, clientName, request);
     }
 
+    httpClient = getHttpClient(httpClient.split(',')[0]);
     if (exportServices) {
         await rmdir(outputPathServices);
         await mkdir(outputPathServices);

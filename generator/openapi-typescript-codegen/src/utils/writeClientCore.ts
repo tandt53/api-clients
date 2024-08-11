@@ -1,13 +1,13 @@
-import { resolve } from 'path';
+import {resolve} from 'path';
 
-import type { Client } from '../client/interfaces/Client';
-import type { HttpClient } from '../HttpClient';
-import type { Indent } from '../Indent';
-import { copyFile, exists, writeFile } from './fileSystem';
-import { formatIndentation as i } from './formatIndentation';
-import { getHttpRequestName } from './getHttpRequestName';
-import { isDefined } from './isDefined';
-import type { Templates } from './registerHandlebarTemplates';
+import type {Client} from '../client/interfaces/Client';
+import type {HttpClient} from '../HttpClient';
+import type {Indent} from '../Indent';
+import {copyFile, exists, writeFile} from './fileSystem';
+import {formatIndentation as i} from './formatIndentation';
+import {getHttpRequestName} from './getHttpRequestName';
+import {isDefined} from './isDefined';
+import type {Templates} from './registerHandlebarTemplates';
 
 /**
  * Generate OpenAPI core files, this includes the basic boilerplate code to handle requests.
@@ -37,14 +37,17 @@ export const writeClientCore = async (
         version: client.version,
     };
 
-    console.log('context............', httpClient);
+    const httpClients = httpClient.split(',');
+    for (const client of httpClients) {
+        await writeFile(resolve(outputPath, `${client.trim()}.client.ts`), i(templates.core.request({...context, httpClient: client}), indent));
+    }
+
     await writeFile(resolve(outputPath, 'OpenAPI.ts'), i(templates.core.settings(context), indent));
     await writeFile(resolve(outputPath, 'ApiError.ts'), i(templates.core.apiError(context), indent));
     await writeFile(resolve(outputPath, 'ApiRequestOptions.ts'), i(templates.core.apiRequestOptions(context), indent));
     await writeFile(resolve(outputPath, 'BinaryType.ts'), i(templates.core.binaryType(context), indent));
     await writeFile(resolve(outputPath, 'ApiResult.ts'), i(templates.core.apiResult(context), indent));
     await writeFile(resolve(outputPath, 'CancelablePromise.ts'), i(templates.core.cancelablePromise(context), indent));
-    await writeFile(resolve(outputPath, `${httpClient}.client.ts`), i(templates.core.request(context), indent));
 
     if (isDefined(clientName)) {
         await writeFile(resolve(outputPath, 'BaseHttpRequest.ts'), i(templates.core.baseHttpRequest(context), indent));

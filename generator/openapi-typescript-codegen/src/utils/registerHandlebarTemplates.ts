@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars/runtime';
 
-import { HttpClient } from '../HttpClient';
+import {getHttpClient, HttpClient} from '../HttpClient';
 import templateClient from '../templates/client.hbs';
 import angularGetHeaders from '../templates/core/angular/getHeaders.hbs';
 import angularGetRequestBody from '../templates/core/angular/getRequestBody.hbs';
@@ -38,6 +38,7 @@ import functionGetFormData from '../templates/core/functions/getFormData.hbs';
 import functionGetQueryString from '../templates/core/functions/getQueryString.hbs';
 import functionGetUrl from '../templates/core/functions/getUrl.hbs';
 import functionIsBlob from '../templates/core/functions/isBlob.hbs';
+import functionIsBinaryType from '../templates/core/functions/isBinaryType.hbs';
 import functionIsDefined from '../templates/core/functions/isDefined.hbs';
 import functionIsFormData from '../templates/core/functions/isFormData.hbs';
 import functionIsString from '../templates/core/functions/isString.hbs';
@@ -128,7 +129,7 @@ export const registerHandlebarTemplates = (root: {
     useOptions: boolean;
     useUnionTypes: boolean;
 }): Templates => {
-    registerHandlebarHelpers(root);
+    registerHandlebarHelpers({...root, httpClient: getHttpClient(root.httpClient.split(',')[0])});
 
     // Main templates (entry points for the files we write to disk)
     const templates: Templates = {
@@ -187,6 +188,7 @@ export const registerHandlebarTemplates = (root: {
     Handlebars.registerPartial('functions/getQueryString', Handlebars.template(functionGetQueryString));
     Handlebars.registerPartial('functions/getUrl', Handlebars.template(functionGetUrl));
     Handlebars.registerPartial('functions/isBlob', Handlebars.template(functionIsBlob));
+    Handlebars.registerPartial('functions/isBinaryType', Handlebars.template(functionIsBinaryType));
     Handlebars.registerPartial('functions/isDefined', Handlebars.template(functionIsDefined));
     Handlebars.registerPartial('functions/isFormData', Handlebars.template(functionIsFormData));
     Handlebars.registerPartial('functions/isString', Handlebars.template(functionIsString));

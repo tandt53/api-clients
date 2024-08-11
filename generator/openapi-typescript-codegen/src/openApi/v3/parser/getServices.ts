@@ -47,7 +47,7 @@ export const getServices = (openApi: OpenApi): Service[] => {
                                     }
                                 });
 
-                                console.log(`getServices.ts: getServices(): ${JSON.stringify(operation)}`);
+                                // console.log(`getServices.ts: getServices(): ${JSON.stringify(operation)}`);
 
                                 // If we have already declared a service, then we should fetch that and
                                 // append the new method to it. Otherwise we should create a new service object.
