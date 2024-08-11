@@ -101,6 +101,3 @@ Legend:
 - :x: Create a client for playwright
 - :x: Create a client for puppeteer
 - :recycle: Change Blob to FormData
-
-# the cat api
-https://developers.thecatapi.com/view-account/ylX4blBYT9FaoVd6OhvR?report=FJkYOq9tW

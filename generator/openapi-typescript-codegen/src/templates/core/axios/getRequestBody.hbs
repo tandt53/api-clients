@@ -1,0 +1,6 @@
+const getRequestBody = (options: ApiRequestOptions): any => {
+	if (options.data) {
+		return options.data;
+	}
+	return undefined;
+};

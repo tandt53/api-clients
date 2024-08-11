@@ -1,0 +1,11 @@
+{{~#equals base 'binary'~}}
+{{~#equals @root.httpClient 'fetch'}}Blob{{/equals~}}
+{{~#equals @root.httpClient 'xhr'}}Blob{{/equals~}}
+{{~#equals @root.httpClient 'axios'}}BinaryType{{/equals~}}
+{{~#equals @root.httpClient 'codeceptjs'}}BinaryType{{/equals~}}
+{{~#equals @root.httpClient 'angular'}}Blob{{/equals~}}
+{{~#equals @root.httpClient 'node'}}Blob{{/equals~}}
+{{~#equals @root.httpClient 'k6'}}BinaryType{{/equals~}}
+{{~else~}}
+{{{base}}}
+{{~/equals~}}
