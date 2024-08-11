@@ -3,7 +3,10 @@
 /* eslint-disable */
 import type { Pet } from "../models/Pet";
 // import FormData from "form-data";
-import { ApiRequestOptions } from "../../src/core/ApiRequestOptions";
+import { ApiRequestOptions } from "../../src/clients/ApiRequestOptions";
+import FormData from "form-data";
+import { BinaryType } from "../../src/clients/BinaryType";
+
 // import fs from "fs";
 
 export class PetService {
@@ -18,7 +21,7 @@ export class PetService {
     return {
       method: "PUT",
       url: "/pet",
-      formData: formData,
+      body: formData,
       mediaType: "application/x-www-form-urlencoded",
       errors: {
         400: `Invalid ID supplied`,
@@ -173,7 +176,7 @@ export class PetService {
   public static uploadFile(
     petId: number,
     additionalMetadata?: string,
-    requestBody?: Blob,
+    requestBody?: BinaryType,
   ): ApiRequestOptions {
     return {
       method: "POST",
@@ -184,7 +187,7 @@ export class PetService {
       query: {
         additionalMetadata: additionalMetadata,
       },
-      body: requestBody,
+      formData: requestBody,
       mediaType: "application/octet-stream",
     };
   }
@@ -192,7 +195,7 @@ export class PetService {
   public static uploadFile2(
     petId: number,
     additionalMetadata?: string,
-    requestBody?: string,
+    requestBody?: FormData,
   ): ApiRequestOptions {
     return {
       method: "POST",
@@ -203,9 +206,7 @@ export class PetService {
       query: {
         additionalMetadata: additionalMetadata,
       },
-      formData: {
-        file: requestBody,
-      },
+      formData: requestBody,
       // body: requestBody,
       mediaType: "application/octet-stream",
       // mediaType: "multipart/form-data",
