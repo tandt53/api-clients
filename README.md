@@ -14,9 +14,9 @@ My idea is to resolve the following issues mainly related to testing:
 [openapi-typescript-codegen](https://github.com/ferdikoomen/openapi-typescript-codegen) is the best tool I found to
 generate a client from an openapi specification. However, it has some limitations:
 
-- The purpose of generated code is seems to be for front end development. It is not flexible enough to be used in
+- The purpose of generated code seems to be for front end development. It is not flexible enough to be used in
   testing.
-- It does not support to generate a client for codeceptjs, cypress or k6.
+- It does not support to generate a client for codeceptjs, axios, cypress or k6.
 
 ## Problem and Solution
 
@@ -32,7 +32,6 @@ In real API testing world, QA engineers have mostly 2 testing approaches:
       k6.
 
 Let's imagine the project using
-
 - cypress for functional test
 - k6 for load test
 - axios for creating script to generate data for load test
