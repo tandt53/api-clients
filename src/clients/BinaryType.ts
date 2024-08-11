@@ -1,0 +1,6 @@
+export type BinaryType = {
+  file: string;
+  fileKey?: string;
+  fileName: string;
+  contentType: string;
+};

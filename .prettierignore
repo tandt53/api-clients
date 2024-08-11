@@ -1,0 +1,20 @@
+.idea
+
+build/
+client/
+coverage/
+dist/
+pnpm-lock.yaml
+.pnpm-store/
+
+# Taken from sveltekit .prettierignore
+.DS_Store
+node_modules
+**/.svelte-kit
+**/package
+.env
+.env.*
+!.env.example
+
+# Mockoon mocks cannot be properly json formatted
+mocks/
