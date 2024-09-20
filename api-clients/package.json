@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \\\"Error: no tests specified\\\" && exit 1",
     "codeceptjs": "codeceptjs run -c codecept.conf.ts --steps --verbose",
-    "mocha": "mocha tests/axios/*.test.ts -r ts-node/register -r tsconfig-paths/register --timeout 120000 --exit",
+    "mocha": "mocha",
     "start:dev": "nodemon"
   },
   "keywords": [],
@@ -16,18 +16,25 @@
     "@codeceptjs/configure": "^0.8.0",
     "@faker-js/faker": "8.4.1",
     "@types/chai": "4.3.17",
+    "@types/expect": "^24.3.0",
     "@types/k6": "0.45.0",
     "@types/mocha": "10.0.7",
     "@types/node": "20.4.2",
+    "@types/node-fetch": "^3.0.3",
+    "@types/sinon": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "6.21.0",
+    "@typescript-eslint/parser": "6.21.0",
     "axios": "1.7.3",
     "chai": "5.1.1",
     "codeceptjs": "3.5.2",
     "cypress": "12.17.1",
+    "esm": "^3.2.25",
     "form-data": "4.0.0",
     "mocha": "10.7.3",
     "nodemon": "3.1.4",
+    "sinon": "^18.0.0",
     "ts-node": "10.9.2",
-    "tsconfig-paths": "3.12.0",
-    "typescript": "^5.1.6"
+    "tsconfig-paths": "4.2.0",
+    "typescript": "5.3.2"
   }
 }

@@ -1,16 +1,16 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AxiosError, AxiosResponse } from "axios";
-import FormData from "form-data";
+import type { AxiosError, AxiosResponse } from 'axios';
+import FormData from 'form-data';
 
-import type { ApiRequestOptions } from "./ApiRequestOptions";
-import type { ApiResult } from "./ApiResult";
-import { CancelablePromise } from "./CancelablePromise";
-import type { OpenAPIConfig } from "./OpenAPI";
-import { OpenAPI } from "./OpenAPI";
-import fs from "fs";
-import { BinaryType } from "./BinaryType";
+import type { ApiRequestOptions } from './ApiRequestOptions';
+import type { ApiResult } from './ApiResult';
+import { CancelablePromise } from './CancelablePromise';
+import type { OpenAPIConfig } from './OpenAPI';
+import { OpenAPI } from './OpenAPI';
+import fs from 'fs';
+import { BinaryType } from './BinaryType';
 
 const { I } = inject();
 
@@ -21,21 +21,21 @@ const isDefined = <T>(
 };
 
 const isString = (value: any): value is string => {
-  return typeof value === "string";
+  return typeof value === 'string';
 };
 
 const isStringWithValue = (value: any): value is string => {
-  return isString(value) && value !== "";
+  return isString(value) && value !== '';
 };
 
 const isBlob = (value: any): value is Blob => {
   return (
-    typeof value === "object" &&
-    typeof value.type === "string" &&
-    typeof value.stream === "function" &&
-    typeof value.arrayBuffer === "function" &&
-    typeof value.constructor === "function" &&
-    typeof value.constructor.name === "string" &&
+    typeof value === 'object' &&
+    typeof value.type === 'string' &&
+    typeof value.stream === 'function' &&
+    typeof value.arrayBuffer === 'function' &&
+    typeof value.constructor === 'function' &&
+    typeof value.constructor.name === 'string' &&
     /^(Blob|File)$/.test(value.constructor.name) &&
     /^(Blob|File)$/.test(value[Symbol.toStringTag])
   );
@@ -54,7 +54,7 @@ const base64 = (str: string): string => {
     return btoa(str);
   } catch (err) {
     // @ts-ignore
-    return Buffer.from(str).toString("base64");
+    return Buffer.from(str).toString('base64');
   }
 };
 
@@ -71,7 +71,7 @@ const getQueryString = (params: Record<string, any>): string => {
         value.forEach((v) => {
           process(key, v);
         });
-      } else if (typeof value === "object") {
+      } else if (typeof value === 'object') {
         Object.entries(value).forEach(([k, v]) => {
           process(`${key}[${k}]`, v);
         });
@@ -86,17 +86,17 @@ const getQueryString = (params: Record<string, any>): string => {
   });
 
   if (qs.length > 0) {
-    return `?${qs.join("&")}`;
+    return `?${qs.join('&')}`;
   }
 
-  return "";
+  return '';
 };
 
 const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
   const encoder = config.ENCODE_PATH || encodeURI;
 
   const path = options.url
-    .replace("{api-version}", config.VERSION)
+    .replace('{api-version}', config.VERSION)
     .replace(/{(.*?)}/g, (substring: string, group: string) => {
       if (options.path?.hasOwnProperty(group)) {
         return encoder(String(options.path[group]));
@@ -113,12 +113,12 @@ const getUrl = (config: OpenAPIConfig, options: ApiRequestOptions): string => {
 
 const isBinaryType = (value: any): value is BinaryType => {
   return (
-    typeof value === "object" &&
-    typeof value.file === "string" &&
-    (typeof value.fileKey === "string" ||
-      typeof value.fileKey === "undefined") &&
-    typeof value.fileName === "string" &&
-    typeof value.contentType === "string"
+    typeof value === 'object' &&
+    typeof value.file === 'string' &&
+    (typeof value.fileKey === 'string' ||
+      typeof value.fileKey === 'undefined') &&
+    typeof value.fileName === 'string' &&
+    typeof value.contentType === 'string'
   );
 };
 
@@ -128,7 +128,7 @@ const getFormData = (options: ApiRequestOptions): FormData | undefined => {
 
     const appendBinary = (value: BinaryType, key?: string) => {
       formData.append(
-        key ? key : value.fileKey ? value.fileKey : "file",
+        key ? key : value.fileKey ? value.fileKey : 'file',
         fs.createReadStream(value.file),
         {
           filename: value.fileName,
@@ -174,7 +174,7 @@ const resolve = async <T>(
   options: ApiRequestOptions,
   resolver?: T | Resolver<T>,
 ): Promise<T | undefined> => {
-  if (typeof resolver === "function") {
+  if (typeof resolver === 'function') {
     return (resolver as Resolver<T>)(options);
   }
   return resolver;
@@ -185,8 +185,6 @@ const getHeaders = async (
   options: ApiRequestOptions,
   formData?: FormData,
 ): Promise<Record<string, string>> => {
-  // const headers: Record<string, any> = {};
-
   const configHeaders = {}; // headers info from OpenAPIConfig
   const optionHeaders = {}; // headers info from API options
 
@@ -197,30 +195,30 @@ const getHeaders = async (
   const additionalHeaders = await resolve(options, config.HEADERS);
 
   if (isStringWithValue(token)) {
-    configHeaders["Authorization"] = `Bearer ${token}`;
+    configHeaders['Authorization'] = `Bearer ${token}`;
   }
 
   if (isStringWithValue(username) && isStringWithValue(password)) {
     const credentials = base64(`${username}:${password}`);
-    configHeaders["Authorization"] = `Basic ${credentials}`;
+    configHeaders['Authorization'] = `Basic ${credentials}`;
   }
 
   // info from form data
   const formHeaders =
-    (typeof formData?.getHeaders === "function" && formData?.getHeaders()) ||
+    (typeof formData?.getHeaders === 'function' && formData?.getHeaders()) ||
     {};
 
   // info from request body
   if (options.body) {
     if (options.mediaType) {
-      optionHeaders["Content-Type"] = options.mediaType;
+      optionHeaders['Content-Type'] = options.mediaType;
     } else if (isBlob(options.body)) {
-      optionHeaders["Content-Type"] =
-        options.body.type || "application/octet-stream";
+      optionHeaders['Content-Type'] =
+        options.body.type || 'application/octet-stream';
     } else if (isString(options.body)) {
-      optionHeaders["Content-Type"] = "text/plain";
+      optionHeaders['Content-Type'] = 'text/plain';
     } else if (!isFormData(options.body)) {
-      optionHeaders["Content-Type"] = "application/json";
+      optionHeaders['Content-Type'] = 'application/json';
     }
   }
 
@@ -257,19 +255,19 @@ const sendRequest = async (
   const data = body ?? formData;
 
   try {
-    if (method === "GET") {
+    if (method === 'GET') {
       return await I.sendGetRequest(url, headers);
     }
-    if (method === "POST") {
+    if (method === 'POST') {
       return await I.sendPostRequest(url, data, headers);
     }
-    if (method === "PUT") {
+    if (method === 'PUT') {
       return await I.sendPutRequest(url, data, headers);
     }
-    if (method === "DELETE") {
+    if (method === 'DELETE') {
       return await I.sendDeleteRequest(url, headers);
     }
-    if (method === "PATCH") {
+    if (method === 'PATCH') {
       return await I.sendPatchRequest(url, data, headers);
     }
     return await I.sendGetRequest(url, headers);
@@ -314,7 +312,7 @@ export const codeceptjsClient = (
           url,
           body,
           formData,
-          headers,
+          headers
         );
         const responseBody = getResponseBody(response);
 

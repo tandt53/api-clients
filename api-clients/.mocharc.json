@@ -1,0 +1,38 @@
+{
+  "diff": true,
+  "extension": [
+    "js",
+    "cjs",
+    "mjs",
+    "ts"
+  ],
+  "package": "./package.json",
+  "timeout": 120000,
+  "ui": "bdd",
+  "reporter": "spec",
+  "reporterOptions": {
+    "overwrite": true,
+    "code": false,
+    "autoOpen": true
+  },
+  "require": [
+    "ts-node/register ",
+    "tsconfig-paths/register"
+  ],
+  "retries": 0,
+  "exit": true,
+  "watch-files": [
+    "lib/**/*.js",
+    "test/**/*.js"
+  ],
+  "watch-ignore": [
+    "lib/vendor"
+  ],
+  "spec": [
+    "tests/axios/user.test.ts"
+  ],
+  "node-option": [
+    "experimental-specifier-resolution=node",
+    "loader=ts-node/esm"
+  ]
+}

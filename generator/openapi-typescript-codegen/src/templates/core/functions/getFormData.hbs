@@ -2,19 +2,20 @@ const getFormData = (options: ApiRequestOptions): FormData | undefined => {
 	if (options.formData) {
 		const formData = new FormData();
 
-		const appendBinary = (value: BinaryType) => {
-			formData.append(value.fileKey ? value.fileKey : 'file',
+		const appendBinary = (value: BinaryType, key?: string) => {
+			formData.append(
+				key ? key : value.fileKey ? value.fileKey : 'file',
 				fs.createReadStream(value.file),
 				{
 					filename: value.fileName,
 					contentType: value.contentType,
-				}
+				},
 			);
 		};
 
 		const process = (key: string, value: any) => {
 			if (isBinaryType(value)) {
-				appendBinary(value);
+				appendBinary(value, key);
 			} else if (isString(value) || isBlob(value)) {
 				formData.append(key, value);
 			} else {
@@ -36,8 +37,7 @@ const getFormData = (options: ApiRequestOptions): FormData | undefined => {
 				} else {
 					process(key, value);
 				}
-			}
-		);
+		});
 
 		return formData;
 	}

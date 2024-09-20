@@ -128,12 +128,12 @@ const getFormData = (options: ApiRequestOptions): FormData | undefined => {
 
     const appendBinary = (value: BinaryType, key?: string) => {
       formData.append(
-        key ? key : value.fileKey ? value.fileKey : "file",
-        fs.createReadStream(value.file),
-        {
-          filename: value.fileName,
-          contentType: value.contentType,
-        },
+          key ? key : value.fileKey ? value.fileKey : 'file',
+          fs.createReadStream(value.file),
+          {
+            filename: value.fileName,
+            contentType: value.contentType,
+          },
       );
     };
 
@@ -154,14 +154,14 @@ const getFormData = (options: ApiRequestOptions): FormData | undefined => {
     }
 
     Object.entries(options.formData)
-      .filter(([_, value]) => isDefined(value))
-      .forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((v) => process(key, v));
-        } else {
-          process(key, value);
-        }
-      });
+        .filter(([_, value]) => isDefined(value))
+        .forEach(([key, value]) => {
+          if (Array.isArray(value)) {
+            value.forEach(v => process(key, v));
+          } else {
+            process(key, value);
+          }
+        });
 
     return formData;
   }

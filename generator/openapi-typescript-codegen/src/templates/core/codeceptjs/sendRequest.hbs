@@ -1,51 +1,29 @@
-const sendRequest = async <T>(
-config: OpenAPIConfig,
-options: ApiRequestOptions,
-url: string,
-body: any,
-formData: FormData | undefined,
-headers: Record<string, string>,
-onCancel: OnCancel
-): Promise<AxiosResponse<T>> => {
-	const source = axios.CancelToken.source();
-
+const sendRequest = async (options: ApiRequestOptions, url: string, body: any, formData: FormData | undefined, headers: Record<string, string>): Promise<AxiosResponse<ApiResult>> => {
 	const method = options.method;
-  	const data = body ?? formData;
-
-	const requestConfig: AxiosRequestConfig = {
-		url,
-		headers,
-		data: body ?? formData,
-		method: options.method,
-		withCredentials: config.WITH_CREDENTIALS,
-		cancelToken: source.token
-	};
-
-	onCancel(() => source.cancel('The user aborted a request.'));
+	const data = body ?? formData;
 
 	try {
 		if (method === 'GET') {
 			return await I.sendGetRequest(url, headers);
 		}
-		else if (method === 'POST') {
+		if (method === 'POST') {
 			return await I.sendPostRequest(url, data, headers);
 		}
-		else if (method === 'PUT') {
-			return await I.sendPutRequest(url, headers, data);
+		if (method === 'PUT') {
+			return await I.sendPutRequest(url, data, headers);
 		}
-		else if (method === 'DELETE') {
-			return await I.sendDeleteRequest(url, headers, data);
+		if (method === 'DELETE') {
+			return await I.sendDeleteRequest(url, headers);
 		}
-		else if (method === 'PATCH') {
-			return await I.sendPatchRequest(url, headers, data);
+		if (method === 'PATCH') {
+			return await I.sendPatchRequest(url, data, headers);
 		}
-		return await I.send(url, data, headers);
-
+		return await I.sendGetRequest(url, headers);
 	} catch (error) {
 		const axiosError = error as AxiosError<ApiResult>;
 		if (axiosError.response) {
 			return axiosError.response;
 		}
-		throw error;
+	throw error;
 	}
 };

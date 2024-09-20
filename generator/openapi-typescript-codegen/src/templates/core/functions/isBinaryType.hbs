@@ -2,7 +2,8 @@ const isBinaryType = (value: any): value is BinaryType => {
 	return (
 		typeof value === 'object' &&
 		typeof value.file === 'string' &&
-		typeof value.fileKey === 'string' &&
+		(typeof value.fileKey === 'string' ||
+		typeof value.fileKey === 'undefined') &&
 		typeof value.fileName === 'string' &&
 		typeof value.contentType === 'string'
 	);

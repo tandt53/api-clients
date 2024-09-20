@@ -1,15 +1,14 @@
 {{>header}}
 
-import axios from 'axios';
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 
-import { ApiError } from './ApiError';
 import type { ApiRequestOptions } from './ApiRequestOptions';
 import type { ApiResult } from './ApiResult';
 import { CancelablePromise } from './CancelablePromise';
-import type { OnCancel } from './CancelablePromise';
 import type { OpenAPIConfig } from './OpenAPI';
+import { OpenAPI } from './OpenAPI';
+import fs from 'fs';
 import { BinaryType } from './BinaryType';
 
 const { I } = inject();
@@ -75,9 +74,9 @@ const { I } = inject();
  * @returns CancelablePromise<ApiResult>
  * @throws ApiError
  */
-export const request = (options: ApiRequestOptions, config: OpenAPIConfig): CancelablePromise<ApiResult> => {
-
+export const codeceptjsClient = (options: ApiRequestOptions, config?: OpenAPIConfig): CancelablePromise<ApiResult> => {
 	return new CancelablePromise(async (resolve, reject, onCancel) => {
+		config = config ?? OpenAPI;
 		try {
 			const url = getUrl(config, options);
 			const formData = getFormData(options);
@@ -85,19 +84,25 @@ export const request = (options: ApiRequestOptions, config: OpenAPIConfig): Canc
 			const headers = await getHeaders(config, options, formData);
 
 			if (!onCancel.isCancelled) {
-				const response = await sendRequest(config, options, url, body, formData, headers, onCancel);
+				const response = await sendRequest(
+					options,
+					url,
+					body,
+					formData,
+					headers
+				);
+
 				const responseBody = getResponseBody(response);
-				const responseHeader = getResponseHeader(response, options.responseHeader);
 
 				const result: ApiResult = {
 					url,
 					ok: isSuccess(response.status),
 					status: response.status,
 					statusText: response.statusText,
-					data: responseBody,
-					headers: response.headers
+					body: responseBody,
+					headers: response.headers,
 				};
-				resolve(result);
+			resolve(result);
 			}
 		} catch (error) {
 			reject(error);
